@@ -13,7 +13,7 @@ export default function Vote({ restaurants }: { restaurants: Restaurant[] }) {
     setIsSubmitting(true);
 
     try {
-      const res = await fetch("http://127.0.0.1:8000/api/votes", {
+      const res = await fetch("http://localhost:8000/api/votes", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

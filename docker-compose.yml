@@ -19,13 +19,19 @@ services:
       dockerfile: Dockerfile
     container_name: backend
     ports:
-      - "3001:3001"
+      - "8000:8000"
     depends_on:
       - db
     environment:
       DATABASE_URL: postgres://postgres:password@db:5432/lunchapp
     volumes:
-      - ./backend/prisma:/app/prisma
+      - ./lunch-order-app-backend/prisma:/app/prisma
+    command: >
+      sh -c "
+      npx prisma generate &&
+      npx prisma migrate dev --name init &&
+      npm run start
+      "
 
   db:
     image: postgres:14

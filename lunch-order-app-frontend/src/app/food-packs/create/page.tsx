@@ -23,7 +23,7 @@ export default function CreateFoodPacks() {
   useEffect(() => {
     const fetchRestaurants = async () => {
       try {
-        const res = await fetch("http://127.0.0.1:8000/api/restaurants");
+        const res = await fetch("http://localhost:8000/api/restaurants");
         const data = await res.json();
         setRestaurants(data);
       } catch (error) {
@@ -49,7 +49,7 @@ export default function CreateFoodPacks() {
     setIsSubmitting(true);
 
     try {
-      const res = await fetch("http://127.0.0.1:8000/api/food-packs", {
+      const res = await fetch("http://localhost:8000/api/food-packs", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

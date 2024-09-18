@@ -17,7 +17,7 @@ interface Winner {
 
 export default async function Winner() {
   const winner: Winner | null = await fetcher<Winner>(
-    "http://127.0.0.1:8000/api/votes/winner"
+    "http://localhost:8000/api/votes/winner"
   );
 
   return (

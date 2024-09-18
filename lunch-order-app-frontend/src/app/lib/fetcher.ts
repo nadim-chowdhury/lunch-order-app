@@ -6,7 +6,7 @@ export async function fetcher<T>(url: string): Promise<T> {
     cache: "no-store",
   });
   console.log("res", res);
-  
+
   if (!res.ok) {
     throw new Error(`Failed to fetch from ${url}`);
   }
