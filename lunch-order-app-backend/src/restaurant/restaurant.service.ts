@@ -7,7 +7,6 @@ export class RestaurantService {
   constructor(private prisma: PrismaService) {}
 
   async create(data: Prisma.RestaurantCreateInput) {
-    // Correct Prisma input type
     return this.prisma.restaurant.create({ data });
   }
 

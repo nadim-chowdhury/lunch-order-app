@@ -7,7 +7,6 @@ export class FoodPackService {
   constructor(private prisma: PrismaService) {}
 
   async create(data: Prisma.FoodPackCreateInput) {
-    // Correct Prisma input type
     return this.prisma.foodPack.create({ data });
   }
 

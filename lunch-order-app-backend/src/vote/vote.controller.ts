@@ -1,41 +1,7 @@
-// import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-// import { VoteService } from './vote.service';
-// import { CreateVoteDto } from './dto/create-vote.dto';
-// import { UpdateVoteDto } from './dto/update-vote.dto';
-
-// @Controller('vote')
-// export class VoteController {
-//   constructor(private readonly voteService: VoteService) {}
-
-//   @Post()
-//   create(@Body() createVoteDto: CreateVoteDto) {
-//     return this.voteService.create(createVoteDto);
-//   }
-
-//   @Get()
-//   findAll() {
-//     return this.voteService.findAll();
-//   }
-
-//   @Get(':id')
-//   findOne(@Param('id') id: string) {
-//     return this.voteService.findOne(+id);
-//   }
-
-//   @Patch(':id')
-//   update(@Param('id') id: string, @Body() updateVoteDto: UpdateVoteDto) {
-//     return this.voteService.update(+id, updateVoteDto);
-//   }
-
-//   @Delete(':id')
-//   remove(@Param('id') id: string) {
-//     return this.voteService.remove(+id);
-//   }
-// }
-
 import { Controller, Post, Body, Get } from '@nestjs/common';
 import { VoteService } from './vote.service';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
+import { CreateVoteDto } from './dto/create-vote.dto';
 
 @ApiTags('Votes')
 @Controller('votes')
@@ -43,7 +9,14 @@ export class VoteController {
   constructor(private readonly voteService: VoteService) {}
 
   @Post()
-  async vote(@Body() voteDto: { employee: string; foodPackId: number }) {
+  @ApiOperation({ summary: 'Cast a vote for a food pack' })
+  @ApiBody({ type: CreateVoteDto })
+  @ApiResponse({
+    status: 201,
+    description: 'Vote successfully cast',
+  })
+  @ApiResponse({ status: 400, description: 'Bad Request' })
+  async vote(@Body() voteDto: CreateVoteDto): Promise<any> {
     return this.voteService.vote({
       employee: voteDto.employee,
       foodPack: { connect: { id: voteDto.foodPackId } },
@@ -51,7 +24,13 @@ export class VoteController {
   }
 
   @Get('winner')
-  async getDailyWinner() {
+  @ApiOperation({ summary: 'Get the daily winner food pack' })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns the food pack with the most votes for the day',
+  })
+  @ApiResponse({ status: 404, description: 'No votes found' })
+  async getDailyWinner(): Promise<any> {
     return this.voteService.getDailyWinner();
   }
 }

@@ -1,26 +1,20 @@
-"use client";
+// import WinnerList from "@/components/winner-list";
+import Vote from "@/components/vote";
+import { fetcher } from "./lib/fetcher";
+import { Restaurant } from "./types/restaurant";
 
-import { useEffect, useState } from "react";
-
-export default function Home() {
-  const [restaurants, setRestaurants] = useState([]);
-
-  useEffect(() => {
-    const fetchRestaurants = async () => {
-      const res = await fetch("http://localhost:3000/api/restaurants");
-      const data = await res.json();
-      setRestaurants(data);
-    };
-
-    fetchRestaurants();
-  }, []);
+export default async function Home() {
+  const restaurants = await fetcher<Restaurant[]>(
+    "http://127.0.0.1:8000/api/restaurants"
+  );
 
   return (
     <div className="container mx-auto py-10">
       <h1 className="text-4xl font-bold text-center mb-10">
         Restaurants and Food Packs
       </h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+
+      {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
         {restaurants.map((restaurant) => (
           <div
             key={restaurant.id}
@@ -36,7 +30,11 @@ export default function Home() {
             </ul>
           </div>
         ))}
-      </div>
+      </div> */}
+      
+      <Vote restaurants={restaurants} />
+
+      {/* <WinnerList /> */}
     </div>
   );
 }
