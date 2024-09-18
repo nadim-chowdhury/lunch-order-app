@@ -1,9 +1,9 @@
 import Vote from "@/components/vote";
 import { fetcher } from "./lib/fetcher";
-import { Restaurant } from "./types/restaurant";
+import { Restaurant } from "@/app/types/restaurant";
 
 export default async function Home() {
-  const restaurants = await fetcher<Restaurant[]>(
+  const restaurants: Restaurant[] = await fetcher<Restaurant[]>(
     "http://localhost:8000/api/restaurants"
   );
 

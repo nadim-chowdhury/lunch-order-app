@@ -9,18 +9,11 @@
 
 1. Clone the repository.
 2. Navigate to the project root.
-3. Ensure you run postgres db on port 5432
-4. Ensure you had create db named mydb
+
 
 ## Running the App
 
 ```bash
-# sudo systemctl start docker
-
-# npx prisma generate
-
-# npx prisma migrate dev
-
 docker-compose up --build
 ```
 

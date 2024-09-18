@@ -3,9 +3,13 @@
 import { Restaurant } from "@/app/types/restaurant";
 import { useState } from "react";
 
-export default function Vote({ restaurants }: { restaurants: Restaurant[] }) {
+interface VoteProps {
+  restaurants: Restaurant[];
+}
+
+export default function Vote({ restaurants }: VoteProps) {
   const [selectedPack, setSelectedPack] = useState<number | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const handleVote = async () => {
     if (!selectedPack || isSubmitting) return;
@@ -21,6 +25,10 @@ export default function Vote({ restaurants }: { restaurants: Restaurant[] }) {
           foodPackId: selectedPack,
         }),
       });
+
+      if (!res.ok) {
+        throw new Error("Failed to submit vote");
+      }
 
       const data = await res.json();
       console.log("data:", data);
@@ -42,11 +50,11 @@ export default function Vote({ restaurants }: { restaurants: Restaurant[] }) {
   return (
     <div className="container mx-auto py-10">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-        {restaurants.map((restaurant) => (
+        {restaurants?.map((restaurant) => (
           <div key={restaurant.id} className="bg-blue-50 rounded-lg p-6">
-            <h2 className="text-2xl font-bold mb-4">{restaurant.name}</h2>
+            <h2 className="text-2xl font-bold mb-4">{restaurant?.name}</h2>
             <ul className="flex flex-wrap items-center gap-4">
-              {restaurant.foodPacks.map((pack) => (
+              {restaurant?.foodPacks?.map((pack) => (
                 <li key={pack.id}>
                   <button
                     onClick={() => setSelectedPack(pack.id)}
@@ -56,7 +64,7 @@ export default function Vote({ restaurants }: { restaurants: Restaurant[] }) {
                         : "bg-gray-200"
                     }`}
                   >
-                    {pack.name}
+                    {pack?.name}
                   </button>
                 </li>
               ))}

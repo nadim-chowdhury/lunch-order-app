@@ -1,15 +1,9 @@
-export async function fetcher<T>(url: string): Promise<T> {
-  const res = await fetch(url, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-    cache: "no-store",
-  });
-  console.log("res", res);
+export const fetcher = async <T>(url: string): Promise<T> => {
+  const response = await fetch(url);
 
-  if (!res.ok) {
-    throw new Error(`Failed to fetch from ${url}`);
+  if (!response.ok) {
+    throw new Error("Failed to fetch");
   }
 
-  return res.json();
-}
+  return response.json();
+};
